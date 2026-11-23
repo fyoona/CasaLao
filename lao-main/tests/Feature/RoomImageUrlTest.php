@@ -49,4 +49,23 @@ class RoomImageUrlTest extends TestCase
             'image_url' => 'https://images.example.test/room.jpg',
         ]);
     }
+
+    public function test_room_setup_uses_local_images_and_can_be_repeated(): void
+    {
+        $this->get('/setup-rooms-xk92')->assertOk();
+
+        $this->assertDatabaseCount('rooms', 5);
+        $this->assertDatabaseHas('rooms', [
+            'name' => 'Standard Room',
+            'image_url' => '/room-images/room-1.png',
+        ]);
+        $this->assertDatabaseHas('rooms', [
+            'name' => 'Standard Twin Room',
+            'image_url' => '/room-images/room-5.png',
+        ]);
+
+        $this->get('/setup-rooms-xk92')->assertOk();
+
+        $this->assertDatabaseCount('rooms', 5);
+    }
 }
