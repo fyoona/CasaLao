@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Room;
 use App\Models\User;
+use Database\Seeders\RoomSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -67,5 +68,17 @@ class RoomImageUrlTest extends TestCase
         $this->get('/setup-rooms-xk92')->assertOk();
 
         $this->assertDatabaseCount('rooms', 5);
+    }
+
+    public function test_room_seeder_creates_default_rooms_without_duplicates(): void
+    {
+        $this->seed(RoomSeeder::class);
+        $this->seed(RoomSeeder::class);
+
+        $this->assertDatabaseCount('rooms', 5);
+        $this->assertDatabaseHas('rooms', [
+            'name' => 'Standard Room',
+            'image_url' => '/room-images/room-1.png',
+        ]);
     }
 }

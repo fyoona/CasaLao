@@ -59,6 +59,12 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # lao
 
+## Admin login on deployment
+
+Set `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` as environment variables in the deployment platform before deploying. The Docker startup creates or updates that admin account after migrations. Use `ADMIN_EMAIL` and `ADMIN_PASSWORD` to log in; keep the password private and do not commit it.
+
+If an admin already exists and both admin variables are unset, startup leaves that account unchanged. If no admin exists, startup stops with an error until `ADMIN_EMAIL` and `ADMIN_PASSWORD` are configured.
+
 ## Booking confirmation email
 
 When an admin changes a booking to **Confirmed**, CasaLao emails the booking owner. To deliver messages through Gmail, enable 2-Step Verification on the sending Google account and create a Google App Password. Set these values in your local `.env` file:

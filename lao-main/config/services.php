@@ -42,4 +42,10 @@ return [
         ))),
     ],
 
+    'admin_bootstrap' => [
+        'name' => env('admin'),
+        'email' => env('admin@example.com'),
+        'password' => env('password123'),
+    ],
+
 ];

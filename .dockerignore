@@ -1,0 +1,8 @@
+.git
+lao-main/.env
+lao-main/.env.*
+!lao-main/.env.example
+lao-main/node_modules
+lao-main/vendor
+lao-main/database/*.sqlite
+lao-main/storage/logs/*

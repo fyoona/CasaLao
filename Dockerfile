@@ -1,8 +1,8 @@
 FROM node:20 AS assets
 WORKDIR /app
-COPY package*.json ./
+COPY lao-main/package*.json ./
 RUN npm install
-COPY . .
+COPY lao-main/ .
 RUN npm run build
 
 FROM php:8.2-cli
@@ -14,12 +14,11 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY . .
+COPY lao-main/ .
 COPY --from=assets /app/public/build ./public/build
 
 RUN composer install --no-dev --optimize-autoloader
 
 
-
 EXPOSE 8080
-CMD php artisan migrate --force; php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+CMD php artisan migrate --force && php artisan db:seed --class=RoomSeeder --force && php artisan db:seed --class=AdminSeeder --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
